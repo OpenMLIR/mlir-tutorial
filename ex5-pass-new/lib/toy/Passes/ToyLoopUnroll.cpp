@@ -3,6 +3,9 @@
 #include "toy/Passes/Passes.h"
 #include "llvm/Support/Debug.h"
 
+#include "mlir/Dialect/Affine/IR/AffineOps.h"
+#include "mlir/Dialect/Affine/LoopUtils.h"
+
 #define DEBUG_TYPE "toy-loop-unroll"
 
 using namespace mlir;
@@ -10,7 +13,10 @@ using namespace mlir;
 namespace {
 struct ToyLoopUnroll : public toy::ToyLoopUnrollBase<ToyLoopUnroll> {
   void runOnOperation() override {
-    getOperation()->dump();
+    auto moduleOp = getOperation();
+    moduleOp.walk([&](affine::AffineForOp op) {
+      (void)loopUnrollJamByFactor(op, 4);
+    });
   }
 };
 
