@@ -8,6 +8,7 @@
 namespace mlir {
 namespace toy {
 std::unique_ptr<Pass> createToyLoopUnrollPass();
+std::unique_ptr<Pass> createToyMem2IterArgsPass();
 } // namespace toy
 } // namespace mlir
 
